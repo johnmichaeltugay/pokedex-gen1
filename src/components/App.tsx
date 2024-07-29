@@ -1,12 +1,20 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import '../styles/App.scss'
 import axios from 'axios'
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function App() {
   const loadSize = 15;
-  const [load, setLoad] = useState(loadSize);
-  const [offset, setOffset] = useState(0);
+  const loadSizeCacheName = 'loadSize';
+  const offsetSizeCacheName = 'offsetSize';
+  const [load, setLoad] = useLocalStorage(loadSizeCacheName, loadSize);
+  const [offset, setOffset] = useLocalStorage(offsetSizeCacheName, 0);
   // const [pokeData, setPokeData] = useState([]);
+
+  const setNewNumberLimit = (dataFunction: number, setDataFunction, localStorageName:string) => {
+    setDataFunction((prevData: number) => prevData += loadSize);
+    localStorage.setItem(localStorageName, dataFunction);
+  }
 
   const loadData = async () => {
     await axios.get('https://pokeapi.co/api/v2/pokemon/', {
@@ -17,8 +25,8 @@ function App() {
     })
       .then((response) => {
         console.log("loadData");
-        setLoad((prevLoad) => prevLoad += loadSize)
-        setOffset((prevOffset) => prevOffset += loadSize);
+        setNewNumberLimit(load, setLoad, loadSizeCacheName);
+        setNewNumberLimit(offset, setOffset, offsetSizeCacheName);
         console.log(response);
         response.data.results.forEach((element:object) => {
           console.log(element);
@@ -32,6 +40,7 @@ function App() {
 
   useEffect(() => {
     console.log("useEffect");
+    localStorage.setItem('loadSize', JSON.stringify(load));
     axios.get('https://pokeapi.co/api/v2/pokemon/', {
       params: {
         limit: load,
@@ -39,10 +48,11 @@ function App() {
       }
     })
       .then((response) => {
+        console.log("useEffect");
+        setNewNumberLimit(load, setLoad, loadSizeCacheName);
+        setNewNumberLimit(offset, setOffset, offsetSizeCacheName);
         response.data.results.forEach((element:object) => {
           console.log(element);
-          setLoad((prevLoad) => prevLoad++);
-          setOffset((prevOffset) => prevOffset++);
         });
     })
       .catch((error) => {
