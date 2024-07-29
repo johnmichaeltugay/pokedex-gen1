@@ -6,7 +6,7 @@ function App() {
   const loadSize = 15;
   const [load, setLoad] = useState(loadSize);
   const [offset, setOffset] = useState(0);
-  const [pokeData, setPokeData] = useState([]);
+  // const [pokeData, setPokeData] = useState([]);
 
   const loadData = async () => {
     await axios.get('https://pokeapi.co/api/v2/pokemon/', {
@@ -20,7 +20,7 @@ function App() {
         setLoad((prevLoad) => prevLoad += loadSize)
         setOffset((prevOffset) => prevOffset += loadSize);
         console.log(response);
-        response.data.results.forEach(element => {
+        response.data.results.forEach((element:object) => {
           console.log(element);
         });
     })
@@ -39,7 +39,7 @@ function App() {
       }
     })
       .then((response) => {
-        response.data.results.forEach(element => {
+        response.data.results.forEach((element:object) => {
           console.log(element);
           setLoad((prevLoad) => prevLoad++);
           setOffset((prevOffset) => prevOffset++);
@@ -65,7 +65,7 @@ function App() {
       </div>
        */}
       <div className="w-full h-full flex flex-row justify-center items-baseline gap-x-4">
-        <div className='bg-red-500 max-h-content'>{ pokeData }</div>
+        <div className='bg-red-500 max-h-content'>{ load }</div>
         <button onClick={ () => loadData() }> hello </button>
         <a>Link sample</a>
 
