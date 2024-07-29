@@ -11,9 +11,8 @@ function App() {
   const [offset, setOffset] = useLocalStorage(offsetSizeCacheName, 0);
   // const [pokeData, setPokeData] = useState([]);
 
-  const setNewNumberLimit = (dataFunction: number, setDataFunction, localStorageName:string) => {
-    setDataFunction((prevData: number) => prevData += loadSize);
-    localStorage.setItem(localStorageName, dataFunction);
+  const setNewNumberLimit = (dataFunction: number, localStorageName:string) => {
+    localStorage.setItem(localStorageName, JSON.stringify(dataFunction));
   }
 
   const loadData = async () => {
@@ -24,10 +23,11 @@ function App() {
       }
     })
       .then((response) => {
-        console.log("loadData");
-        setNewNumberLimit(load, setLoad, loadSizeCacheName);
-        setNewNumberLimit(offset, setOffset, offsetSizeCacheName);
-        console.log(response);
+        setLoad((prevLoad: number) => prevLoad += loadSize);
+        setOffset((prevOffset: number) => prevOffset += loadSize);
+        setNewNumberLimit(load, loadSizeCacheName);
+        setNewNumberLimit(offset, offsetSizeCacheName);
+        console.log('loadData', response);
         response.data.results.forEach((element:object) => {
           console.log(element);
         });
@@ -49,8 +49,11 @@ function App() {
     })
       .then((response) => {
         console.log("useEffect");
-        setNewNumberLimit(load, setLoad, loadSizeCacheName);
-        setNewNumberLimit(offset, setOffset, offsetSizeCacheName);
+        setLoad((prevLoad: number) => prevLoad += loadSize);
+        setOffset((prevOffset: number) => prevOffset += loadSize);
+        setNewNumberLimit(load, loadSizeCacheName);
+        setNewNumberLimit(offset, offsetSizeCacheName);
+        console.log('useEffect', response);
         response.data.results.forEach((element:object) => {
           console.log(element);
         });
