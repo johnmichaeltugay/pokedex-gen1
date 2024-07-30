@@ -27,7 +27,7 @@ PokemonItem.propTypes = {
 
 function PokemonItem(props: { itemData: object, key: number }) {
     
-    console.log(typeof props, props);
+    // console.log(typeof props, props);
     const pokemonDisplay = props.itemData;
     const pokemonName = [pokemonDisplay.name.slice(0, 1).toUpperCase(), pokemonDisplay.name.slice(1,)].join('');
     const pokemonTypes = pokemonDisplay.type.map((pokemonType: string) => {
