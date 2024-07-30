@@ -1,36 +1,35 @@
-import React, { useContext } from 'react';
+// import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { PokemonRosterContext } from '../contexts/PokemonRosterContext';
+// import { PokemonRosterContext } from '../contexts/PokemonRosterContext';
 import bugIcon from '../assets/pokemon_type_icons/bug.svg'
-import darkIcon from '../assets/pokemon_type_icons/dark.svg'
-import dragonIcon from '../assets/pokemon_type_icons/dragon.svg'
-import electricIcon from '../assets/pokemon_type_icons/electric.svg'
-import fairyIcon from '../assets/pokemon_type_icons/fairy.svg'
-import fightingIcon from '../assets/pokemon_type_icons/fighting.svg'
+// import darkIcon from '../assets/pokemon_type_icons/dark.svg'
+// import dragonIcon from '../assets/pokemon_type_icons/dragon.svg'
+// import electricIcon from '../assets/pokemon_type_icons/electric.svg'
+// import fairyIcon from '../assets/pokemon_type_icons/fairy.svg'
+// import fightingIcon from '../assets/pokemon_type_icons/fighting.svg'
 import fireIcon from '../assets/pokemon_type_icons/fire.svg'
-import flyingIcon from '../assets/pokemon_type_icons/flying.svg'
-import ghostIcon from '../assets/pokemon_type_icons/ghost.svg'
+// import flyingIcon from '../assets/pokemon_type_icons/flying.svg'
+// import ghostIcon from '../assets/pokemon_type_icons/ghost.svg'
 import grassIcon from '../assets/pokemon_type_icons/grass.svg'
-import groundIcon from '../assets/pokemon_type_icons/ground.svg'
-import iceIcon from '../assets/pokemon_type_icons/ice.svg'
-import normalIcon from '../assets/pokemon_type_icons/normal.svg'
+// import groundIcon from '../assets/pokemon_type_icons/ground.svg'
+// import iceIcon from '../assets/pokemon_type_icons/ice.svg'
+// import normalIcon from '../assets/pokemon_type_icons/normal.svg'
 import poisonIcon from '../assets/pokemon_type_icons/poison.svg'
-import psychicIcon from '../assets/pokemon_type_icons/psychic.svg'
-import rockIcon from '../assets/pokemon_type_icons/rock.svg'
-import steelIcon from '../assets/pokemon_type_icons/steel.svg'
+// import psychicIcon from '../assets/pokemon_type_icons/psychic.svg'
+// import rockIcon from '../assets/pokemon_type_icons/rock.svg'
+// import steelIcon from '../assets/pokemon_type_icons/steel.svg'
 import waterIcon from '../assets/pokemon_type_icons/water.svg'
+import { pokedexDataForm } from '../contexts/PokemonRosterContext';
 
 PokemonItem.propTypes = {
     key: PropTypes.number,
     itemData: PropTypes.object.isRequired,
 };
 
-function PokemonItem(props: { itemData: object, key: number }) {
-    
-    // console.log(typeof props, props);
+function PokemonItem(props: { itemData: pokedexDataForm, key: number }) {
     const pokemonDisplay = props.itemData;
     const pokemonName = [pokemonDisplay.name.slice(0, 1).toUpperCase(), pokemonDisplay.name.slice(1,)].join('');
-    const pokemonTypes = pokemonDisplay.type.map((pokemonType: string) => {
+    const pokemonTypes = pokemonDisplay.types.map((pokemonType: string) => {
         switch (pokemonType) {
             case 'bug':
                 return (<img className='w-6 p-1 mt-1 rounded-full' style={{backgroundColor: '#A6B91A'}} src={bugIcon} />)
@@ -47,7 +46,7 @@ function PokemonItem(props: { itemData: object, key: number }) {
     return (
         <div className='pokemonTile select-none'>
             <div className="h-12 md:h-14 relative z-[10]">
-                <img className='pokemonImage rounded-full aspect-square w-24 md:w-28 object-contain overflow-visible absolute left-1/2 -translate-x-1/2' src={pokemonDisplay.sprites_other_dreamWorld_frontDefault} />
+                <img className='pokemonImage rounded-full aspect-square w-24 md:w-28 object-contain overflow-visible absolute left-1/2 -translate-x-1/2' src={pokemonDisplay.image} />
             </div>
             <div className="pokemonTextbox rounded-xl flex flex-col relative">
                 <div className=" text-sm absolute ps-1">
