@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react'
 import '../styles/App.scss'
 import axios from 'axios'
 import useLocalStorage from '../hooks/useLocalStorage';
-import PokemonRoster from './PokemonRoster';
-import { pokedexDataForm, PokemonRosterContext } from '../contexts/PokemonRosterContext';
+import { pokedexDataForm } from '../contexts/PokemonRosterContext';
+import PokemonItem from './PokemonItem';
+import gridIcon from '../assets/grid_view_icon.svg';
+import listIcon from '../assets/list_view_icon.svg';
 
 interface pokemonInitialDataForm {
   url: string;
@@ -16,13 +18,15 @@ interface rawPokemonTypeDataForm {
 }
 
 function App() {
-  const loadSize = 15;
+  const loadSize = 18;
   const loadSizeCacheName = 'loadSize';
   const offsetSizeCacheName = 'offsetSize';
   const pokeDataCacheName = 'pokemonData';
+  const listTypeCacheName = 'listType'
   const [load, setLoad] = useLocalStorage(loadSizeCacheName, loadSize);
   const [offset, setOffset] = useLocalStorage(offsetSizeCacheName, 0);
   const [pokemonData, setPokemonData] = useLocalStorage(pokeDataCacheName, []);
+  const [listType, setListType] = useLocalStorage(listTypeCacheName, 3);
   const [networkError, setNetworkError] = useState(false);
   const [cutoffError, setCutoffError] = useState(false);
 
@@ -88,18 +92,21 @@ function App() {
 
   return (
     <div className="w-screen max-w-screen-md">
-      <div className="bg-red-400 h-[8vh] sticky top-0 z-[100]">
-        <h1 className='text-4xl'>Pok&#233;dex</h1>
+      <div className="pokedex-case pokedex-bg h-[12vh] md:h-[15vh] sticky top-0 z-[100] flex items-center">
+        <h1 className='text-2xl noto-sans-800 ps-4'>Pok&#233;dex</h1>
       </div>
-      <PokemonRosterContext.Provider value={pokemonData}>
-        <PokemonRoster />
-      </PokemonRosterContext.Provider>
-      <div className="w-full flex flex-row justify-center items-baseline gap-x-4 sticky bottom-0 z-[100]">
-        <div className='bg-red-500 max-h-content'>{ load }</div>
-        <button onClick={ () => loadData() }> hello </button>
-        <a>Link sample</a>
-        <div className='bg-teal-500'>{cutoffError}</div>
-        <div className='bg-teal-500'>{networkError}</div>
+      <div className={"grid gap-4 md:gap-8 pt-6 " + (listType === 3 ? 'grid-cols-3' : 'grid-cols-1')}>
+            {pokemonData?.map((item: pokedexDataForm) => (
+                <PokemonItem key={item.id} itemData={item}></PokemonItem>
+            ))}
+        </div>
+      <div className="pokedex-bg w-full h-[8vh] flex flex-row justify-end items-center gap-x-4 sticky bottom-0 z-[100]">
+        <div className='rounded-lg flex items-center me-4 relative'>
+          {setListType} {networkError} {cutoffError}
+          <div className={'rounded-full w-10 h-10 aspect-square bg-white bg-opacity-25 transition ease-in-out absolute ' + (listType === 3 ? 'left-0' : 'right-0')}></div>
+          <img className='rounded-full w-10 p-1' onClick={() => setListType(() => 3)} src={gridIcon} />
+          <img className='rounded-full w-10 p-1' onClick={() => setListType(() => 1)} src={listIcon} />
+        </div>
       </div>
     </div>
   )

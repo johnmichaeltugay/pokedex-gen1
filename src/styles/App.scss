@@ -73,6 +73,32 @@ $black: #141414;
     "wdth" 100;
 }
 
+.noto-sans-800 {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.pokedex-case {
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 75% 60%, 50% 100%, 0 100%);
+}
+
+.pokedex-bg {
+  background-color: #dd0b2ddd;
+  backdrop-filter: blur(7px);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 28
+}
+
 /* 
 @keyframes logo-spin {
   from {
