@@ -9,12 +9,22 @@ import gridIcon from '../assets/grid_view_icon.svg';
 import listIcon from '../assets/list_view_icon.svg';
 
 interface pokemonInitialDataForm {
+  name: string;
   url: string;
 }
+
 interface rawPokemonTypeDataForm {
   type: {
     name: string;
   }
+}
+
+interface pokemonAssetsForm {
+  name: number;
+  image: string;
+  height: number;
+  weight: number;
+  types: string[];
 }
 
 function App() {
@@ -27,39 +37,42 @@ function App() {
   const [offset, setOffset] = useLocalStorage(offsetSizeCacheName, 0);
   const [pokemonData, setPokemonData] = useLocalStorage(pokeDataCacheName, []);
   const [listType, setListType] = useLocalStorage(listTypeCacheName, 3);
-  const [networkError, setNetworkError] = useState(false);
-  const [cutoffError, setCutoffError] = useState(false);
+  const [initIsLoading, setInitIsLoading] = useState(true);
+  const [loadingError, setLoadingError] = useState(null);
 
-  const rawDataSynthesizer = (pokemonRoster: pokemonInitialDataForm[]) => {
-    for (const pokeLink of pokemonRoster) {
-      axios.get(pokeLink.url).then((response) => {
-        console.log(response);
-        const pokemonTypes = response.data.types.map((typeData: rawPokemonTypeDataForm) => typeData.type.name);
-        const loadedPokemon = pokemonData.map((pokemon: pokedexDataForm) => { return pokemon.id });
-        console.log("check if", response.data.id, 'is in', loadedPokemon);
-        if (!loadedPokemon.includes(response.data.id)) {
-          setPokemonData((prevPokemonData: pokedexDataForm[]) => [...prevPokemonData, {
-            id: response.data.id,
-            weight: response.data.weight,
-            height: response.data.height,
-            order: response.data.order,
-            name: response.data.name,
+  // Cache pokemon assets
+  const initPokedexData = async (initPokemonData: pokemonInitialDataForm) => {
+    const pokemonAssetsCache = localStorage.getItem(initPokemonData.name);
+    let pokemonId = 0;
+    if (!pokemonAssetsCache) {
+      const pokemonAssetsData = await axios.get(initPokemonData.url)
+        .then((response) => {
+          pokemonId = response.data.id;
+          return {
+            name: initPokemonData.name,
             image: response.data.sprites.other.dream_world.front_default,
-            types: pokemonTypes,
-            isCaught: false,
-            catchDate: null,
-            nickname: null,
-          }]);
-        }
-        setCutoffError(() => false);
-      })
-        .catch((error) => {
-          console.log("subsequentPokemonDataError: ", error);
-          setCutoffError(() => true);
-      })
+            height: response.data.height,
+            weight: response.data.weight,
+            types: response.data.types.map((typeData: rawPokemonTypeDataForm) => typeData.type.name),
+          }
+        })
+        .catch(() => {
+          pokemonId = 0
+          return {
+            image: '',
+            name: '',
+            height: 0,
+            weight: 0,
+            types: [],
+          }
+        });
+      localStorage.setItem(pokemonId.toString(), JSON.stringify(pokemonAssetsData));
     }
-  }
+    else pokemonId = JSON.parse(pokemonAssetsCache).id;
+    return pokemonId;
+  };
 
+  // Load additional pokemon entries
   const loadData = () => {
     axios.get('https://pokeapi.co/api/v2/pokemon/', {
       params: {
@@ -68,21 +81,39 @@ function App() {
       }
     })
       .then((response) => {
-        rawDataSynthesizer(response.data.results);
-        setNetworkError(() => false);
+        response.data.results.forEach(async(item: pokemonInitialDataForm) => {
+          const pokemonId = await initPokedexData(item);
+          console.log('check if', pokemonId, 'is at', pokemonData);
+          if (typeof pokemonId === 'number' && !(pokemonData.includes(pokemonId))) {
+            setPokemonData((prevPokemonData: number[]) => {
+              const newData = [...new Set(prevPokemonData)];
+              newData.push(pokemonId);
+              return [...new Set(newData)].sort((a, b) => a - b);
+            });
+            console.log("pokemon - ", typeof pokemonId, pokemonId, " - found");
+          }
+        })
+        
       })
       .catch((error) => {
-        console.log("initialPokemonDataError: ", error);
-        setNetworkError(() => true);
+        setLoadingError(() => error);
+      })
+      .finally(() => {
+        console.log("run")
+        setInitIsLoading(() => false);
+
       })
   }
 
   useEffect(() => {
-    console.log('check loading status -', pokemonData.length)
+    console.log('check if all data has been loaded:', pokemonData.length, '===', load);
     if (pokemonData.length === load) {
       setLoad((prevLoad: number) => prevLoad += loadSize);
       setOffset((prevOffset: number) => prevOffset += loadSize);
     }
+    return (() => {
+      console.log('rearrange pokemonData');
+    })
   }, [pokemonData]);
 
   // INITIAL LOAD OF FIRST POKEMON
@@ -90,19 +121,20 @@ function App() {
     loadData();
   }, []);
 
+  
   return (
     <div className="w-screen max-w-screen-md">
       <div className="pokedex-case pokedex-bg h-[12vh] md:h-[15vh] sticky top-0 z-[100] flex items-center">
         <h1 className='text-2xl noto-sans-800 ps-4'>Pok&#233;dex</h1>
       </div>
-      <div className={"grid gap-4 md:gap-8 pt-6 " + (listType === 3 ? 'grid-cols-3' : 'grid-cols-1')}>
-            {pokemonData?.map((item: pokedexDataForm) => (
-                <PokemonItem key={item.id} itemData={item}></PokemonItem>
-            ))}
-        </div>
-      <div className="pokedex-bg w-full h-[8vh] flex flex-row justify-end items-center gap-x-4 sticky bottom-0 z-[100]">
+      <div className={"grid gap-4 md:gap-8 pt-6 px-8 transition ease-in-out " + (listType === 3 ? 'grid-cols-3' : 'grid-cols-1')}>
+          {pokemonData?.map((item: number, index: number) => (
+            <PokemonItem itemData={item} key={index} />
+          ))}
+      </div>
+      <div className="pokedex-bg w-full h-[8vh] rounded-t-lg flex flex-row justify-end items-center gap-x-4 sticky bottom-0 z-[100]">
         <div className='rounded-lg flex items-center me-4 relative'>
-          {setListType} {networkError} {cutoffError}
+          {setListType} {initIsLoading} {loadingError}
           <div className={'rounded-full w-10 h-10 aspect-square bg-white bg-opacity-25 transition ease-in-out absolute ' + (listType === 3 ? 'left-0' : 'right-0')}></div>
           <img className='rounded-full w-10 p-1' onClick={() => setListType(() => 3)} src={gridIcon} />
           <img className='rounded-full w-10 p-1' onClick={() => setListType(() => 1)} src={listIcon} />
