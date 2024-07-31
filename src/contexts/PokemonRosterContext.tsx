@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext } from "react";
 export interface pokedexDataForm {
         name: string;
@@ -7,4 +8,4 @@ export interface pokedexDataForm {
         nickname: string | null;
 }
 
-export const PokemonRosterContext = createContext <pokedexDataForm[]>([]);
+export const PokemonRosterContext = createContext <any[]>([]);
