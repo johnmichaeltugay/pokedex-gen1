@@ -15,10 +15,10 @@ export interface typeDataForm {
 }
 
 function PokemonItem(props: { itemData: number, key: number }) {
+    console.log(props.itemData);
     const fetchAssets = localStorage.getItem(props.itemData.toString())
     const pokemonDisplay = fetchAssets ? JSON.parse(fetchAssets) : {};
     const pokemonName = [pokemonDisplay.name.slice(0, 1).toUpperCase(), pokemonDisplay.name.slice(1,)].join('');
-
     const pokemonTypes = !(pokemonDisplay.types === undefined) ? pokemonDisplay.types.map((pokemonType: string) => {
         let typeDataEntry = pokemonTypesData.find(typeData => typeData.type === pokemonType);
         if (typeof typeDataEntry === "undefined") typeDataEntry = {type: 'unknown', icon: '', color: '#A7A79A'}

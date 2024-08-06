@@ -27,15 +27,15 @@ function App() {
       </div>
       <Router>
         <Routes>
-          <Route path="pokedex-gen1/:id" element={<PokemonView />} />
-          <Route path="pokedex-gen1/" element={<PokemonList />} />
+          <Route path="/:id" element={<PokemonView />} />
+          <Route path="/" element={<PokemonList />} />
         </Routes>
       </Router>
       
       <div className="pokedex-bg w-full h-[8vh] rounded-t-lg flex flex-row justify-end items-center gap-x-4 fixed bottom-0 inset-x-0 z-[100]">
         <Router>
           <Routes>
-            <Route path="pokedex-gen1/" element={<PokemonListViewController />} />
+            <Route path="/" element={<PokemonListViewController />} />
           </Routes>
         </Router>
       </div>

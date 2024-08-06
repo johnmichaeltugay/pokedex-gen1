@@ -6,6 +6,7 @@ function PokemonView() {
     const params = useParams();
     const fetchAssets = params.id ? localStorage.getItem(params.id.toString()) : undefined;
     const assetData = fetchAssets ? JSON.parse(fetchAssets) : {};
+    console.log(assetData, "assetData");
     const pokemonName = [assetData.name.slice(0, 1).toUpperCase(), assetData.name.slice(1,)].join('');
     const pokemonTypes = !(assetData.types === undefined) ? assetData.types.map((pokemonType: string) => {
         let typeDataEntry = pokemonTypesData.find(typeData => typeData.type === pokemonType);
