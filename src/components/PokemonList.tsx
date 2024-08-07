@@ -94,7 +94,7 @@ function PokemonList() {
             scrollThreshold={0.97}
             loader={<div className="w-full h-24 flex justify-center mt-12"><p className='noto-sans-400 text-lg'>Loading...</p></div>}
         >
-        <div className={"grid gap-4 md:gap-8 pt-6 px-8 transition ease-in-out " + (listType === 3 ? 'grid-cols-3' : 'grid-cols-1')}>
+        <div className={"grid gap-4 md:gap-8 pt-6 ps-4 pe-8 transition ease-in-out " + (listType === 3 ? 'grid-cols-3' : 'grid-cols-1')}>
             
           {pokemonData?.map((item: number, index: number) => (
                 <PokemonItem itemData={item} key={index}  />

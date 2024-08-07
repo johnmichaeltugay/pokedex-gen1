@@ -22,7 +22,7 @@ function PokemonItem(props: { itemData: number, key: number }) {
     const pokemonTypes = !(pokemonDisplay.types === undefined) ? pokemonDisplay.types.map((pokemonType: string) => {
         let typeDataEntry = pokemonTypesData.find(typeData => typeData.type === pokemonType);
         if (typeof typeDataEntry === "undefined") typeDataEntry = {type: 'unknown', icon: '', color: '#A7A79A'}
-        return (<img key={pokemonDisplay.name} className='w-4 p-0.5 md:w-6 md:p-1 mt-1 rounded-full' style={{backgroundColor: typeDataEntry.color}} src={typeDataEntry.icon} />)
+        return (<img key={pokemonDisplay.name} className='w-4 p-0.5 md:w-6 md:p-1 mt-1 rounded-full object-contain' style={{backgroundColor: typeDataEntry.color}} src={typeDataEntry.icon} />)
     }): [];
     return (
         <a href={'/' + props.itemData}>
