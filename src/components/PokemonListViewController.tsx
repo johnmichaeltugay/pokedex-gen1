@@ -8,7 +8,6 @@ function PokemonListViewController() {
     const globalData = useContext(PokemonRosterContext);
     const listType = globalData[globalData.length - 2];
     const setListType = globalData[globalData.length - 1];
-    console.log("PokemonListViewController", typeof(globalData), globalData);
     return (
         <div className='rounded-lg flex items-center me-4 relative'>
             <div className={'rounded-full w-10 h-10 aspect-square bg-white bg-opacity-25 transition ease-in-out absolute ' + (listType === 3 ? 'left-0' : 'right-0')}></div>

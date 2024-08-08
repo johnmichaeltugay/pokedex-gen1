@@ -43,3 +43,5 @@ export const pokemonTypesData:typeDataForm[] = [
     {type: 'steel', icon: steelIcon, color: '#B7B7CE' },
     {type: 'water', icon: waterIcon, color: '#6390F0' },
 ]
+
+export const capitalize = (textToCap: string) => [textToCap.slice(0, 1).toUpperCase(), textToCap.slice(1,)].join('');

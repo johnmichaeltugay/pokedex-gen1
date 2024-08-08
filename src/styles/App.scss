@@ -1,8 +1,8 @@
 $black: #141414;
 $custom-bezier: cubic-bezier(.32, .53, 0, 1) all .25s;
 
-@mixin vertical-drop-shadow($distance, $blur) {
-  filter: drop-shadow(0px $distance $blur $black);
+@mixin vertical-drop-shadow($distance1, $distance2, $blur) {
+  filter: drop-shadow($distance1 $distance2 $blur $black);
 }
 
 @mixin glassBackground($color1, $stop1, $color2, $stop2, $color3, $stop3, $color4, $stop4, $color5, $stop5) {
@@ -42,21 +42,16 @@ $custom-bezier: cubic-bezier(.32, .53, 0, 1) all .25s;
   align-items: center;
 }
 
-.pokemonTile, .pokemonTile *, .pokemonBackButton{
+.pokemonTile, .pokemonTile *, .pokemonBackButton, .markButton{
   transition: $custom-bezier;
 }
 
 .pokemonImage {
-  @include vertical-drop-shadow(3px, 1px);
-}
-
-.pokemonTile:hover {
-  transform: scale(1.05);
+  @include vertical-drop-shadow(0px, 3px, 1px);
 }
 
 .pokemonTile:hover .pokemonImage {
-  transform: scale(1.12) translateX(-45%);
-  @include vertical-drop-shadow(9px, 3px);
+  @include vertical-drop-shadow(0px, 9px, 3px);
 }
 
 .pokemonDisplay, .pokemonTextbox {
@@ -67,7 +62,6 @@ $custom-bezier: cubic-bezier(.32, .53, 0, 1) all .25s;
     rgba(250, 250, 250, 0),     54%,
     rgba(250, 250, 250, 0.1),   84%
   );
-  border-radius: 16px;
   box-shadow: 0 5px 3px #0c0a09;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -207,6 +201,22 @@ $custom-bezier: cubic-bezier(.32, .53, 0, 1) all .25s;
       rgba(250, 250, 250, 0.1), 84%
     );
   }
+}
+
+.statsClipA {
+  clip-path: polygon(65% 0, 100% 0, 100% 100%, 30% 100%);
+}
+
+.statsClipAMobile {
+  clip-path: polygon(0 40%, 100% 70%, 100% 100%, 0 100%);
+}
+
+.statsClipB {
+  clip-path: polygon(60% 0, 100% 0, 100% 100%, 25% 100%);
+}
+
+.statsClipBMobile {
+  clip-path: polygon(0 35%, 100% 65%, 100% 100%, 0 100%);
 }
 
 .pokedex-case {
