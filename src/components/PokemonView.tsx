@@ -1,15 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate, useParams } from 'react-router-dom'
 import backIcon from '../assets/arrow_back_icon.svg'
 import { pokemonTypesData } from '../assets/pokemonTypesData'
 import { useQuery } from '@tanstack/react-query';
 import { fetchMiscPokemonData, pokemonStats } from '../hooks/fetchPokemonDataWithNameURL';
+import { useState } from 'react';
+// import { Input } from '@headlessui/react';
 
 function PokemonView() {
     const params = useParams();
     const navigate = useNavigate();
+    // const fieldInputs = useRef(null);
+    // const navButtons = useRef(null);
+    const [isEditing, setIsEditing] = useState(false);
     const { isPending, isError, data } = useQuery({
-        queryKey: [params.name],
-        queryFn: () => fetchMiscPokemonData(params.name ?? 'undefined'),
+        queryKey: [params.pokemonName],
+        queryFn: () => fetchMiscPokemonData(params.pokemonName ?? 'undefined'),
     });
     if (isPending) return <div className='my-auto mx-4 sm:mx-20 h-[60vh] z-10'><div className="pokemonDisplay rounded-3xl h-full mt-[3vh] flex justify-end"></div></div>
     if (isError) return <div className='my-auto mx-4 sm:mx-20 h-[60vh] z-10'><div className="pokemonDisplay rounded-3xl h-full mt-[3vh] flex justify-end">Error occurred</div></div>
@@ -76,18 +82,24 @@ function PokemonView() {
                                 <div className='w-full flex flex-col mb-4'>
                                     {pokemonStats}
                                 </div>
-                                <div className='overflow-y-scroll pe-2 h-[10vh]'>
-                                    <p className='noto-sans-400 text-xs text-justify'>{data.text}</p>
-                                </div>
+                                {!isEditing && (
+                                    <>
+                                    <div className='overflow-y-scroll pe-2 h-[10vh]'>
+                                        <p className='noto-sans-400 text-xs text-justify'>{data.text}</p>
+                                    </div>
+                                    </>
+                                )}
                             </div>
                         </div>
-                        <div className='markButton w-3/4 py-0.5 justify-self-end self-center sm:w-full rounded-full bg-transparent border-2 border-[#EAEAEA] mix-blend-normal hover:bg-[#EAEAEA] hover:mix-blend-difference'>Mark as Found</div>
+                        {!isEditing && (
+                            <div onClick={() => setIsEditing(false)} className='markButton w-3/4 py-0.5 justify-self-end self-center sm:w-full rounded-full bg-transparent border-2 border-[#EAEAEA] hover:bg-[#EAEAEA] hover:text-stone-950 hover:cursor-pointer'>Mark as Found</div>
+                        )}
                         
                         
                         {/* <p className='text-xl sm:text-2xl noto-sans-400 self-end'>Weight: {assetData.weight}</p> */}
                         {/* <p className='text-xl sm:text-2xl noto-sans-400 self-end'>Height: {assetData.height}</p> */}
                     </div>
-            </div>
+                </div>
         </div>
     )
 }

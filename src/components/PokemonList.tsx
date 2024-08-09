@@ -72,7 +72,7 @@ function PokemonList() {
     })
   }
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery({
     queryKey: ['pokemonData'],
     queryFn: fetchNewRawPokemonData,
     initialPageParam: 0,
@@ -90,7 +90,7 @@ function PokemonList() {
   })
 
   if (status === 'pending') return(<div className="w-full h-24 flex justify-center mt-12"><p className='noto-sans-400 text-lg'>Loading...</p></div>);
-  else if (status === 'error') return (<div className="w-full h-24 flex justify-center mt-12"><p className='noto-sans-400 text-lg'>Error: {error}</p></div>);
+  else if (status === 'error') return (<div className="w-full h-24 flex justify-center mt-12"><p className='noto-sans-400 text-lg'>Error</p></div>);
   else {
     console.log('data', status, ':', data, isFetching, hasNextPage, isFetchingNextPage);
     return (

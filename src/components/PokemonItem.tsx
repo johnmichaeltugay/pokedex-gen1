@@ -18,14 +18,6 @@ export interface typeDataForm {
     icon: string,
     color: string
 }
- 
-interface pokemonPageData {
-    pages: {
-        name: string,
-        url:string,
-    }[],
-    pageParams: number[];
-}
 
 function PokemonItem(props: { pokemonName: string, url: string}) {
     const [, , , , listType, ] = useContext(PokemonRosterContext);

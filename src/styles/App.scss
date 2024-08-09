@@ -228,6 +228,46 @@ $custom-bezier: cubic-bezier(.32, .53, 0, 1) all .25s;
   backdrop-filter: blur(7px);
 }
 
+.pokedexButton-enter {
+  opacity: 0;
+}
+
+.pokedexButton-enter-active {
+  opacity: 1;
+  transition: opacity 800ms;
+}
+
+.pokedexButton-exit {
+  opacity: 1;
+}
+
+.pokedexButton-exit-active {
+  opacity: 0;
+  transition: opacity 800ms;
+}
+
+.pokedexFiller-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.pokedexFiller-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  transition: opacity 800ms;
+}
+
+.pokedexFiller-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.pokedexFiller-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 800ms;
+}
+
 .material-symbols-outlined {
   font-variation-settings:
     'FILL' 0,
