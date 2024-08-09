@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext } from "react";
 export interface pokedexDataForm {
-        name: string;
-        url: string;
+        id: number;
         isCaught: boolean;
         catchDate: Date | null;
         nickname: string | null;
