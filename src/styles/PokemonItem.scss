@@ -1,0 +1,21 @@
+@use 'base';
+
+.pokemonTile, .pokemonTile * {
+    transition: base.$custom-bezier;
+    backface-visibility: hidden;
+}
+
+.pokemonTile:hover .pokemonImage {
+    @include base.vertical-drop-shadow(0px, 9px, 3px);
+}
+
+.pokemonTile:hover .pokemonTextbox {
+    @include base.glassBackground(rgba(250, 250, 250, 0.5), 0%,
+        rgba(250, 250, 250, 0), 30%,
+        rgba(250, 250, 250, 0.18), 45%,
+        rgba(250, 250, 250, 0), 70%,
+        rgba(250, 250, 250, 0.1), 100%);
+    animation: glassShineReverse 0.25s;
+    box-shadow: 0 10px 7px #0c0a09;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}

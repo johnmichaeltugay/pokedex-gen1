@@ -1,0 +1,64 @@
+.rise {
+    animation: rise-show 0.30s;
+    animation-fill-mode: forwards;
+}
+
+.slide-left {
+    animation: slide-left-show 0.30s;
+    animation-fill-mode: forwards;
+}
+
+.delay-10 {
+    animation-delay: 0.05s;
+}
+
+.delay-20 {
+    animation-delay: 0.1s;
+}
+
+.delay-30 {
+    animation-delay: 0.15s;
+}
+
+.delay-40 {
+    animation-delay: 0.20s;
+}
+
+.delay-50 {
+    animation-delay: 0.25s;
+}
+
+.delay-60 {
+    animation-delay: 0.30s;
+}
+
+.delay-70 {
+    animation-delay: 0.35s;
+}
+
+.delay-80 {
+    animation-delay: 0.40s;
+}
+
+@keyframes rise-show {
+    0% {
+        transform: translateY(100%);
+        opacity: 0
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-left-show {
+    0% {
+        transform: translateX(100%);
+        opacity: 0
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,63 @@
+@use 'base';
+
+.statsClipA {
+    clip-path: polygon(65% 0, 100% 0, 100% 100%, 30% 100%);
+}
+
+.statsClipAMobile {
+    clip-path: polygon(0 40%, 100% 70%, 100% 100%, 0 100%);
+}
+
+.statsClipB {
+    clip-path: polygon(60% 0, 100% 0, 100% 100%, 25% 100%);
+}
+
+.statsClipBMobile {
+    clip-path: polygon(0 35%, 100% 65%, 100% 100%, 0 100%);
+}
+
+.pokemonBackButton,
+.markButton {
+    transition: base.$custom-bezier;
+    backface-visibility: hidden;
+}
+
+.pokedexButton-enter {
+    opacity: 0;
+}
+
+.pokedexButton-enter-active {
+    opacity: 1;
+    transition: opacity 800ms;
+}
+
+.pokedexButton-exit {
+    opacity: 1;
+}
+
+.pokedexButton-exit-active {
+    opacity: 0;
+    transition: opacity 800ms;
+}
+
+.pokedexFiller-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.pokedexFiller-enter-active {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: opacity 800ms;
+}
+
+.pokedexFiller-exit {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.pokedexFiller-exit-active {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 800ms;
+}

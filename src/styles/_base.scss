@@ -1,0 +1,19 @@
+$black: #141414;
+$custom-bezier: cubic-bezier(.32, .53, 0, 1) all .25s;
+
+@mixin vertical-drop-shadow($distance1, $distance2, $blur) {
+    filter: drop-shadow($distance1 $distance2 $blur $black);
+}
+
+@mixin glassBackground($color1, $stop1, $color2, $stop2, $color3, $stop3, $color4, $stop4, $color5, $stop5) {
+    background: linear-gradient(160deg, $color1 $stop1, $color2 $stop2, $color3 $stop3, $color4 $stop4, $color5 $stop5)
+}
+
+@mixin noto-sans-variant($weight) {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: $weight;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+}
